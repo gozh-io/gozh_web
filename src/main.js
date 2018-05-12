@@ -33,6 +33,9 @@ import store from './store/store'
 Vue.use(MuseUI)
 Vue.config.productionTip = false
 
+import common from './common';
+Vue.use(common);
+
 Vue.prototype.axios = axios
 
 /* eslint-disable no-new */
