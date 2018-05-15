@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://www.gozh.io:8080',
+        target: 'http://localhost:8080',
         pathRewrite: {
           '^/api': '/'
         }
@@ -50,7 +50,7 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-
+    
     /**
      * Source Maps
      */

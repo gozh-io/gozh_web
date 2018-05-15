@@ -93,9 +93,8 @@ export default {
     },
     // 设置验证码图片
     SetBase64Img: function() {
-      let captchaBase64Url = this.GetServerUrl() + "/captcha";
       this.axios
-        .get(captchaBase64Url)
+        .get("/api/captcha")
         .then((response) => {
           this.captchaBase64Img = response.data;
         })
@@ -148,7 +147,6 @@ export default {
       }
 
       // post 处理
-      let registerUrl = this.GetServerUrl() + "/user/signup";
       var querystring = require('querystring');
       let params = {
         username: this.username,
@@ -156,7 +154,7 @@ export default {
         email: this.email,
         captcha: this.captcha
       };
-      this.axios.post(registerUrl, querystring.stringify(params)).then(response => {
+      this.axios.post("/api/user/signup", querystring.stringify(params)).then(response => {
         if (response.data.status == 0) { // 注册成功
           this.registerInformation = "注册成功,前往登录页面";
         }

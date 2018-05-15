@@ -33,6 +33,8 @@ import store from './store/store'
 Vue.use(MuseUI)
 Vue.config.productionTip = false
 
+axios.defaults.baseRUL = 'http：//localhost：8088'
+
 import common from './common';
 Vue.use(common);
 
