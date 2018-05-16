@@ -10,28 +10,32 @@
         </div>
         <!--输入框-->
         <div class="input">
-          <mu-text-field v-model="username" type="text" hint-text="用户名"
+          <mu-text-field v-model="username" type="text" hint-text="用户名" fullWidth
           name="username" icon="account_circle" />
           <br/>
-          <mu-text-field v-model="email" type="email" hint-text="请输入邮箱地址" icon="email" name="email"/>
+          <mu-text-field v-model="email" type="email" hint-text="请输入邮箱地址" fullWidth
+          icon="email" name="email"/>
           <br/>
-          <mu-text-field v-model="password" type="password" hint-text="请输入密码" icon="remove_red_eye"
-                         name="password"/>
+          <mu-text-field v-model="password" type="password" hint-text="请输入密码" fullWidth
+          icon="remove_red_eye" name="password"/>
           <br/>
-          <mu-text-field v-model="secondPassword" type="password" hint-text="请再次输入密码" icon="remove_red_eye"
-                         name="secondPassword"/>
+          <mu-text-field v-model="secondPassword" type="password" hint-text="请再次输入密码" fullWidth
+          icon="remove_red_eye" name="secondPassword"/>
           <br/>
-          <div align="center">
-            <!--验证码图片-->
-            <img v-bind:src="captchaBase64Img" @click="SetBase64Img" height="60px" width="240px"/>
-          </div>
           <mu-text-field v-model="captcha" type="text" hint-text="请输入验证码"
                          name="captcha" icon="keyboard"/>
+          <!--验证码图片-->
+          <img v-bind:src="captchaBase64Img" @click="SetBase64Img" height="40px" width="120px"/>
+          <mu-text-field v-model="email_captcha" type="text" hint-text="请输入邮箱验证码"
+                         name="captcha" icon="keyboard"/>
+          <!-- 获取邮箱验证码按钮 -->
+          <mu-raised-button v-bind:label="send_email_captcha_label" @click="sendEmailCaptcha"
+            v-bind:disabled="send_email_captcha_disabled"/>
           <br/>
           <br/>
 
           <!--按钮-->
-          <div style="width: 88px;margin:0px auto;">
+          <div style="width: 90px;margin:0px auto;">
             <mu-raised-button class="login-button" label="注册" @click="register"/>
           </div>
           <br/>
@@ -70,6 +74,9 @@ export default {
       registerInformation: "",
       registerDialog: false,
       status: -100,
+      email_captcha:"",
+      send_email_captcha_label: "发送邮箱验证码",
+      send_email_captcha_disabled: false
     };
   },
   mounted() {
@@ -99,7 +106,8 @@ export default {
           this.captchaBase64Img = response.data;
         })
         .catch((error) => {
-          alert(error);
+          this.registerInformation = "网络出错";
+          this.registerDialog = true;
         });
     },
     // 注册事件方法
@@ -152,9 +160,10 @@ export default {
         username: this.username,
         password: this.password,
         email: this.email,
-        captcha: this.captcha
+        captcha: this.captcha,
+        email_captcha: this.email_captcha
       };
-      this.axios.post("/api/user/signup", querystring.stringify(params)).then(response => {
+      this.axios.post("/api/user/signup", querystring.stringify(params)).then((response) => {
         if (response.data.status == 0) { // 注册成功
           this.registerInformation = "注册成功,前往登录页面";
         }
@@ -162,6 +171,10 @@ export default {
           this.registerInformation = response.data.desc;
         }
         this.status = response.data.status;
+        this.registerDialog = true;
+      })
+      .catch((error) => {
+        this.registerInformation = "网络出错";
         this.registerDialog = true;
       });
     },
@@ -195,6 +208,41 @@ export default {
           });
       }
       return ret;
+    },
+    // 发送邮箱验证码
+    sendEmailCaptcha: function () {
+      if(!this.checkEmail(this.email))
+      {
+        this.registerInformation = "邮箱不正确哦";
+        this.registerDialog = true;
+        return;
+      }
+      var querystring = require('querystring');
+      let params = {
+        email: this.email
+      };
+      this.axios.post("/api/email_captcha", querystring.stringify(params))
+      .then((response) => {
+          if(response.data.status == 0)
+          {
+            this.send_email_captcha_disabled = true;
+            this.send_email_captcha_label = "发送成功，60秒后可再次获取！";
+            this.timer(60);
+          }
+        })
+        .catch((error) => {
+          this.registerInformation = "网络出错";
+          this.registerDialog = true;
+        });
+        
+        this.can_send_email_button = true;
+    },
+    timer: function (time) {
+      setTimeout(this.initSendEmailCaptchaButton, time*1000);
+    },
+    initSendEmailCaptchaButton: function () {
+      this.send_email_captcha_label = "再次获取验证码";
+      this.send_email_captcha_disabled = false;
     }
   }
 };
@@ -210,7 +258,7 @@ body {
 }
 
 .join-form {
-  width: 400px;
+  width: 490px;
   margin: 100px auto 5%;
   background-color: white;
   border-radius: 10px;
@@ -219,7 +267,7 @@ body {
 .join-title {
   /*border: 2px solid black;*/
   margin: auto 0px;
-  font-size: 200%;
+  font-size: 2em;
   text-align: center;
   height: 57px;
   padding-top: 15px;
