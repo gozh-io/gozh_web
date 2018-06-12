@@ -28,7 +28,7 @@
       <!--功能区域-->
       <div class="demo-menu">
         <div class="right-content">
-          <el-row :gutter=36>
+          <el-row :gutter=12>
             <el-col :span="12">
               <el-button
                 @click="publish"
@@ -45,8 +45,6 @@
                 发布文章
               </el-button>
             </el-col>
-          </el-row>
-          <el-row :gutter=36>
             <el-col :span="12">
               <el-button
                 icon="gozh-help"
@@ -64,8 +62,31 @@
           </el-row>
         </div>
       </div>
-      <!--推荐列表-->
+
       <div class="demo-menu">
+        <el-container>
+          <el-header class="right-header">
+            <el-menu 
+              default-active="1"
+              background-color="#545c64"
+              text-color="#fff"
+              active-text-color="#F56C6C"
+              mode="horizontal"
+              >
+              <el-menu-item index="1">最新</el-menu-item>
+              <el-menu-item index="2">最热</el-menu-item>
+              <el-menu-item index="3">更多</el-menu-item>
+            </el-menu>
+          </el-header>
+          <el-main>
+            aaaaaaa
+          </el-main>
+        </el-container>        
+      </div>
+      
+
+      <!--推荐列表-->
+      <!-- <div class="demo-menu">
         <div class="right-content">
           <el-tabs v-model="activeTabR" type="card">
             <el-tab-pane label="最新" name="tab4">
@@ -76,7 +97,7 @@
             <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
           </el-tabs>
         </div>
-      </div>
+      </div> -->
       <mu-paper class="demo-menu" :zDepth="2">
         <div class="right-content">
           <mu-tabs :value="activeTabR" @change="handleTabChangeR">
@@ -141,6 +162,7 @@
 </script>
 
 <style scoped>
+  
   .demo-menu-container {
     max-width: 350px;
 
@@ -175,6 +197,11 @@
 
   .right-content {
     text-align: center;
+    padding : 10px 10px
+  }
+
+  .right-header{
+    padding: 0px
   }
 
   .right-detail {
@@ -200,7 +227,7 @@
   }
 
   .right-button {
-
+    margin: 5px 0px
   }
 
 
