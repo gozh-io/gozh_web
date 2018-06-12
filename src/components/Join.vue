@@ -8,35 +8,75 @@
         <div class="join-title">
           注册
         </div>
+        <br/>
         <!--输入框-->
         <div class="input">
-          <mu-text-field v-model="username" type="text" hint-text="用户名" fullWidth
-          name="username" icon="account_circle" />
+          <el-input
+            prefix-icon="gozh-76"
+            placeholder="用户名"
+            v-model="username">
+          </el-input>
           <br/>
-          <mu-text-field v-model="email" type="email" hint-text="请输入邮箱地址" fullWidth
-          icon="email" name="email"/>
           <br/>
-          <mu-text-field v-model="password" type="password" hint-text="请输入密码" fullWidth
-          icon="remove_red_eye" name="password"/>
+          <el-input
+            prefix-icon="gozh-185078emailmailstreamline"
+            placeholder="邮箱"
+            v-model="email">
+          </el-input>
           <br/>
-          <mu-text-field v-model="secondPassword" type="password" hint-text="请再次输入密码" fullWidth
-          icon="remove_red_eye" name="secondPassword"/>
           <br/>
-          <mu-text-field v-model="captcha" type="text" hint-text="请输入验证码"
-                         name="captcha" icon="keyboard"/>
+          <el-input
+            prefix-icon="gozh-password"
+            placeholder="请输入密码"
+            v-model="password">
+          </el-input>
+          <br/>
+          <br/>
+          <el-input
+            prefix-icon="gozh-password"
+            placeholder="请再次输入密码"
+            v-model="secondPassword">
+          </el-input>
+          <br/>
+          <br/>
+          <el-row>
+            <el-col :span="16">
+              <el-input
+                prefix-icon="gozh-keyboard"
+                placeholder="请输入验证码"
+                v-model="captcha">
+              </el-input>
+            </el-col>
           <!--验证码图片-->
-          <img v-bind:src="captchaBase64Img" @click="SetBase64Img" height="40px" width="120px"/>
-          <mu-text-field v-model="email_captcha" type="text" hint-text="请输入邮箱验证码"
-                         name="captcha" icon="keyboard"/>
-          <!-- 获取邮箱验证码按钮 -->
-          <mu-raised-button v-bind:label="send_email_captcha_label" @click="sendEmailCaptcha"
-            v-bind:disabled="send_email_captcha_disabled"/>
+          <el-col :span="8">
+            <img v-bind:src="captchaBase64Img" @click="SetBase64Img" height="40px" width="120px"/>
+          </el-col>
+          </el-row>
+          <br/>
+
+          <el-row>
+            <el-col :span="16">
+              <el-input
+                prefix-icon="gozh-keyboard"
+                placeholder="请输入邮箱验证码"
+                v-model="email_captcha">
+              </el-input>
+            </el-col>
+            <!-- 获取邮箱验证码按钮 -->
+            <el-col :span="8">
+              <el-button type="primary" v-bind:label="send_email_captcha_label" 
+                @click="sendEmailCaptcha" v-bind:disabled="send_email_captcha_disabled" 
+                plain>主要按钮</el-button>
+              <!-- <mu-raised-button v-bind:label="send_email_captcha_label" @click="sendEmailCaptcha"
+                v-bind:disabled="send_email_captcha_disabled"/> -->
+            </el-col>
+          </el-row>
           <br/>
           <br/>
 
           <!--按钮-->
-          <div style="width: 90px;margin:0px auto;">
-            <mu-raised-button class="login-button" label="注册" @click="register"/>
+          <div align="center">
+            <el-button type="primary" class="login-button" @click="register" plain>注册</el-button>
           </div>
           <br/>
         </div>
@@ -112,7 +152,7 @@ export default {
     },
     // 注册事件方法
     register: function() {
-      
+
       // 检查用户名长度
       if(this.username.length == 0 ||
          this.username.length >= 30) {
@@ -198,7 +238,7 @@ export default {
           if (m.index === regex.lastIndex) {
               regex.lastIndex++;
           }
-          
+
           // The result can be accessed through the `m`-variable.
           m.forEach((match, groupIndex) => {
             console.log(match == email);
@@ -234,7 +274,7 @@ export default {
           this.registerInformation = "网络出错";
           this.registerDialog = true;
         });
-        
+
         this.can_send_email_button = true;
     },
     timer: function (time) {

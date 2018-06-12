@@ -1,35 +1,39 @@
 <template>
   <div class="layout">
-    <nav-bar :active-tab="activeTab"></nav-bar>
+    <nav-bar></nav-bar>
         <!--导航-->
     <div class="content">
-
-      <!--面包屑导航-->
-      <div class="breadcrumb">
-        <mu-breadcrumb>
-          <mu-breadcrumb-item href="/">Home</mu-breadcrumb-item>
-          <mu-breadcrumb-item href="/">VideoGame</mu-breadcrumb-item>
-          <mu-breadcrumb-item>Download</mu-breadcrumb-item>
-        </mu-breadcrumb>
-      </div>
-      <!--面包屑导航-->
-
-      <mu-row class="body-content" gutter>
+      <el-container class="body-content">
         <!--notify start-->
-        <mu-col width="100" tablet="100" desktop="100">
-          <mu-chip class="notify"  @delete="handleClose" showDelete>
+        <el-header>
+          <!--面包屑导航-->
+          <div class="breadcrumb">
+            <!--面包屑导航-->
+            <el-breadcrumb separator="/">
+              <el-breadcrumb-item :to="{'path': '/'}">Home</el-breadcrumb-item>
+              <el-breadcrumb-item >VideoGame</el-breadcrumb-item>
+              <el-breadcrumb-item>Download</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+          <el-tag type="danger" size="medium" closable>
             <span>未设置登录密码，请前往 <a href="">修改密码</a> 页面进行设置。设置后将可以在移动设备上使用邮箱登录网站。</span>
-          </mu-chip>
-        </mu-col>
+          </el-tag>
+        </el-header>
+        <el-container>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
         <!--notify end-->
         <!--content start-->
-         <router-view></router-view>
-          <right-sidebar :is_article="true"></right-sidebar>
-      </mu-row>
+         <el-aside>
+           <right-sidebar :is_article="true"></right-sidebar>
+         </el-aside>
+        </el-container>
+      </el-container>
     </div>
     <div class="footer">
       <my-footer></my-footer>
-      Gozh ©2018 Created by Muse-UI VueJS
+      Gozh ©2018 Created by Element-UI VueJS
     </div>
   </div>
 </template>
@@ -39,9 +43,11 @@
   import ArticleList from './ArticleList'
   import RightSidebar from './RightSidebar'
   import MyFooter from './Footer'
+  import Courses from  './Courses'
 export default {
   name: 'home',
   components: {
+    Courses,
     ArticleList,
     RightSidebar,
     NavBar,

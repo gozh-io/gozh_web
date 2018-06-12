@@ -33,6 +33,16 @@ import store from './store/store'
 Vue.use(MuseUI)
 Vue.config.productionTip = false
 
+// 引入ElementUi
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import 'element-ui/lib/theme-chalk/display.css'
+Vue.use(ElementUI);
+Vue.config.productionTip = false;
+
+// 引入阿里icon
+import './assets/icon/iconfont.css'
+
 axios.defaults.baseRUL = 'http：//localhost：8088'
 
 import common from './common';

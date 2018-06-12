@@ -5,19 +5,39 @@
       <div class="login-form" id="login-from">
         <!--头部登录标识-->
         <div class="login-title">
-          登录
+          Golang中文社区
         </div>
+        <br/>
+        <br/>
         <!--输入框-->
         <div class="input">
-          <mu-text-field label="邮箱" type="email" full-width="true" hint-text="请输入邮箱地址" icon="email" name="email"/>
+          <el-input
+            placeholder="请输入邮箱地址"
+            prefix-icon="el-icon-message"
+            v-model="email">
+          </el-input>
           <br/>
-          <mu-text-field label="密码" type="password" full-width="true" hint-text="请输入密码" icon="remove_red_eye"
-                         name="password"/>
+          <br/>
+          <br/>
+          <el-input
+            placeholder="请输入密码"
+            type="password"
+            prefix-icon="gozh-eye"
+            v-model="password">
+          </el-input>
+          <br/>
+          <br/>
           <br/>
           <!--按钮-->
-          <div style="width:200px; margin:0px auto;">
-            <mu-raised-button class="login-button" full-width="true" label="开始吧!"/>
-          </div>
+          <el-row>
+            <el-col :span="12" :offset="6">
+              <div align="center">
+                <el-button type="primary" class="login-button" icon="gozh-login" @click="login" round>
+                  登录
+                </el-button>
+              </div>
+            </el-col>
+          </el-row>
         </div>
         <!--第三方登录   横线、文字处-->
         <div class="sign-in-with-other">
@@ -26,17 +46,14 @@
           <span style="white-space:pre;">  </span><span class="line"></span>
         </div>
         <!--第三方登录按钮-->
-        <div class="sign-in-with-other-botton">
-          <mu-icon-button href="#">
-            <font-awesome-icon :icon="['fab', 'github-alt']"/>
-          </mu-icon-button>
-          <mu-icon-button href="#">
-            <font-awesome-icon :icon="['fab', 'weixin']"/>
-          </mu-icon-button>
-          <mu-icon-button href="#">
-            <font-awesome-icon :icon="['fab', 'qq']"/>
-          </mu-icon-button>
-        </div>
+        <div align="center">
+          <el-button href="#" icon="gozh-github2" circle>
+          </el-button>
+          <el-button href="#" icon="gozh-weixin" circle>
+          </el-button>
+          <el-button href="#" icon="gozh-qq-copy" circle>
+          </el-button>
+      </div>
       </div>
       <my-footer></my-footer>
     </div>
@@ -55,26 +72,113 @@
       MyFooter
     },
     data() {
-      return {}
+      return {
+        email: "",
+        password: "",
+        loginDialog: false,
+        loginInformation: "",
+        goToIndex: false,
+      }
     },
     created() {
-      bgAndFooterLayout();
     },
     mounted() {
-      bgAndFooterLayout();
-    }
-  }
+    },
+    methods: {
+      login : function () {
+        // 检测邮箱是否为空
+        if(this.email === "")
+        {
+          this.loginInformation = "请输入邮箱哦";
+          this.loginDialog = true;
+          return;
+        }
 
-  function bgAndFooterLayout() {
-    // noinspection UnnecessaryLocalVariableJS
-    var height = parseInt(window.innerHeight);
-    // noinspection JSValidateTypes
-    var panelHeight = parseInt(document.getElementById("login-from").clientHeight) + 162;
-    // noinspection JSValidateTypes
-    if (panelHeight > height) {
-      document.getElementById("login-bg").style.height = panelHeight + 50 + "px";
-    } else {
-      document.getElementById("login-bg").style.height = height + "px";
+        // 检测邮箱是否合法
+        if(!this.checkEmail(this.email))
+        {
+          this.loginInformation = "邮箱不正确哦";
+          this.loginDialog = true;
+          return;
+        }
+
+        // 检测是否输入密码
+        if(ths.password == "")
+        {
+          this.loginInformation = "请输入密码";
+          this.loginDialog = true;
+          return;
+        }
+
+        // 检测密码是否超过限制长度
+        if(this.password.length >= 30)
+        {
+          this.loginInformation = "密码长度不能超过三十";
+          this.loginDialog = true;
+          return;
+        }
+        // POST处理
+        var querystring = require('querystring');
+        let params = {
+          email: this.email,
+          password: this.password
+        };
+
+        this.axios.post("/api/user/signup", querystring.stringify(params)).then((response) => {
+          if (response.data.status == 0) { // 注册成功
+            this.loginInformation = "登录成功";
+            this.goToIndex = true;
+          }
+          else {
+            this.registerInformation = response.data.desc;
+          }
+          this.registerDialog = true;
+        })
+        .catch((error) => {
+          this.registerInformation = "网络出错";
+          this.registerDialog = true;
+        });
+      }
+      ,
+      // 检查email
+      checkEmail: function (email) {
+        const regex = /[0-9a-zA-Z]*@[0-9a-zA-Z]*\.[0-9a-zA-Z]*/gm;
+        const str = email;
+        let m;
+        let ret = false;
+        while ((m = regex.exec(str)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+              console.log(match == email);
+                if(match == email) {
+                  ret = true;
+                }
+            });
+        }
+        return ret;
+      },
+      loginDialogClose: function () {
+        if(this.goToIndex)
+        {
+          this.$router.push({path: '/list'});
+        }
+        this.loginDialog = false;
+      },
+      bgAndFooterLayout: function() {
+        let height = parseInt(window.innerHeight);
+        let panelHeight = parseInt(document.getElementById("login-from").clientHeight) + 162;
+        // noinspection JSValidateTypes
+        if (panelHeight > height) {
+          document.getElementById("login-bg").style.height = panelHeight + 50 + "px";
+        } else {
+          document.getElementById("login-bg").style.height = height + "px";
+        }
+      }
     }
   }
 

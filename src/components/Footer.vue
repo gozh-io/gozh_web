@@ -1,6 +1,6 @@
 <template>
-  <mu-row gutter class="footer-bac">
-    <mu-col width="100" tablet="25" desktop="25">
+  <el-row :gutter=36 class="footer-bac">
+    <el-col :span="12">
       <div class="footer">
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  GOZH是一个开源的社区，社区的建设都是技术类免费贡献自己的时间去设计和开发的，我们致力于打造一个活跃度高的，能真正解决问题的，高质量的Golang中文社区。这里需要你的加入为社区贡献你的一份力量。</p>
         <div class="icon">
@@ -14,17 +14,17 @@
           <a href="">大嘴的候</a>
         </p>
       </div>
-    </mu-col>
-    <mu-col width="100" tablet="25" desktop="25">
+    </el-col>
+    <el-col :span="4">
       <h2>赞助商</h2>
-    </mu-col>
-    <mu-col width="100" tablet="25" desktop="25">
+    </el-col>
+    <el-col :span="4">
       <h2>信息统计</h2>
-    </mu-col>
-    <mu-col width="100" tablet="25" desktop="25">
+    </el-col>
+    <el-col :span="4">
       <h2>其他信息</h2>
-    </mu-col>
-  </mu-row>
+    </el-col>
+  </el-row>
 </template>
 
 <script>

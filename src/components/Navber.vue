@@ -1,19 +1,26 @@
 <template>
-  <mu-appbar title="Title">
-    <mu-tabs :value="activeTab" class="tab">
-      <mu-tab value="tab1" title="技术分享" href="/"/>
-      <mu-tab value="tab2" title="技术翻译"href="/documents" />
-      <mu-tab value="tab3" title="综合文章" href="#"/>
-      <mu-tab value="tab4" title="中文教程" href="/courses"/>
-    </mu-tabs>
-    <mu-text-field icon="search" class="appbar-search-field"  slot="right" hintText="请输入搜索内容"/>
-    <mu-flat-button color="white" label="搜索" slot="right"/>
-    <mu-icon-menu icon="more_vert" slot="right">
-      <mu-menu-item @click="userCenter" title="个人中心"/>
-      <mu-menu-item @click="publish" title="发布文章"/>
-      <mu-menu-item @click="publish" title="提个问题"/>
-    </mu-icon-menu>
-  </mu-appbar>
+  <el-menu :default-active="$route.path"
+           class="el-menu-demo" mode="horizontal" router
+           text-color="#C5C6C8" background-color="#474A4F" active-text-color="#F9E2B7" @select="handleSelect">
+      <el-menu-item index="/list">技术分享</el-menu-item>
+      <el-menu-item index="/documents">技术翻译</el-menu-item>
+      <el-menu-item index="3">综合文章</el-menu-item>
+      <el-menu-item index="/courses">中文教程</el-menu-item>
+      <el-submenu index="5">
+        <template slot="title"><i class="el-icon-more"></i></template>
+        <el-menu-item index="/user/sad">个人中心</el-menu-item>
+        <el-menu-item index="/create">提个问题</el-menu-item>
+        <el-menu-item index="/create">发布文章</el-menu-item>
+      </el-submenu>
+      <el-menu-item index="">
+        <el-input
+          placeholder="请输入搜索的内容"
+          suffix-icon="el-icon-search"
+          v-model="search">
+        </el-input>
+        <el-button type="primary" round>搜索</el-button>
+      </el-menu-item>
+  </el-menu>
 </template>
 
 <script>
@@ -22,12 +29,12 @@
     props: ['activeTab'],
     data() {
       return {
-        // activeTab: 'tab1',
+        search: ''
       }
     },
     methods: {
-      handleTabChange(val) {
-        this.activeTab = val
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
       },
 
       userCenter() {
