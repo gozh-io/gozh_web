@@ -2,6 +2,7 @@ import UserCenter from  '@/components/user/Index'
 import MyPublish from  '@/components/user/MyPublish'
 import Profile from  '@/components/user/Profile'
 import ModifyAvatar from  '@/components/user/ModifyAvatar'
+import ChangePassword from '@/components/user/ChangePassword'
 
 export default { // 用户中心
       path: '/user',

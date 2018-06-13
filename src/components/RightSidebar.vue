@@ -79,50 +79,53 @@
             </el-menu>
           </el-header>
           <el-main>
-            aaaaaaa
+            <div class="right-list">
+              <div class="right-list-item">
+                <el-row :gutter="24">
+                  <el-col :span="6">
+                    <img class="avatar" src="../assets/images/avater.png" style="width:100%">
+                  </el-col>
+                  <el-col :span="18">
+                    <a href=""><p>我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影...</p></a>
+                    <span class="right-icon">5小时前 </span>
+                    <span class="right-icon"><font-awesome-icon icon="heart" size="2x"/>2</span>
+                    <span class="right-icon"><font-awesome-icon :icon="icon" size="2x"/>23</span>
+                  </el-col>
+                </el-row>
+              </div>
+
+              <div class="right-list-item">
+                <el-row :gutter="24">
+                  <el-col :span="6">
+                    <img class="avatar" src="../assets/images/avater.png" style="width:100%">
+                  </el-col>
+                  <el-col :span="18">
+                    <a href=""><p>我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影...</p></a>
+                    <span class="right-icon">5小时前 </span>
+                    <span class="right-icon"><font-awesome-icon icon="heart" size="2x"/>2</span>
+                    <span class="right-icon"><font-awesome-icon :icon="icon" size="2x"/>23</span>
+                  </el-col>
+                </el-row>
+              </div>
+
+              <div class="right-list-item">
+                <el-row :gutter="24">
+                  <el-col :span="6">
+                    <img class="avatar" src="../assets/images/avater.png" style="width:100%">
+                  </el-col>
+                  <el-col :span="18">
+                    <a href=""><p>我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影...</p></a>
+                    <span class="right-icon">5小时前 </span>
+                    <span class="right-icon"><font-awesome-icon icon="heart" size="2x"/>2</span>
+                    <span class="right-icon"><font-awesome-icon :icon="icon" size="2x"/>23</span>
+                  </el-col>
+                </el-row>
+              </div>
+            </div>
           </el-main>
         </el-container>        
       </div>
       
-
-      <!--推荐列表-->
-      <!-- <div class="demo-menu">
-        <div class="right-content">
-          <el-tabs v-model="activeTabR" type="card">
-            <el-tab-pane label="最新" name="tab4">
-              aaa
-            </el-tab-pane>
-            <el-tab-pane label="最热" name="tab5">配置管理</el-tab-pane>
-            <el-tab-pane label="更多" name="tab6">角色管理</el-tab-pane>
-            <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
-          </el-tabs>
-        </div>
-      </div> -->
-      <mu-paper class="demo-menu" :zDepth="2">
-        <div class="right-content">
-          <mu-tabs :value="activeTabR" @change="handleTabChangeR">
-            <mu-tab value="tab4" title="最新"/>
-            <mu-tab value="tab5" title="最热"/>
-            <mu-tab value="tab6" title="更多"/>
-          </mu-tabs>
-          <div class="right-list">
-            <mu-list-item title="" disabled>
-              <mu-avatar slot="left" src="http://www.muse-ui.org/images/uicon.jpg" :size="30"/>
-              <a href=""><p>我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影...</p></a>
-              <span class="right-icon">5小时前 </span>
-              <span class="right-icon"><mu-icon value="favorite" :size="18"/>2</span>
-              <span class="right-icon"><mu-icon value="insert_comment" :size="18"/>23</span>
-            </mu-list-item>
-            <mu-list-item title="" disabled>
-              <mu-avatar slot="left" src="http://www.muse-ui.org/images/uicon.jpg" :size="30"/>
-              <a href=""><p>我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影...</p></a>
-              <span class="right-icon">5小时前 </span>
-              <span class="right-icon"><mu-icon value="favorite" :size="18"/>2</span>
-              <span class="right-icon"><mu-icon value="insert_comment" :size="18"/>23</span>
-            </mu-list-item>
-          </div>
-        </div>
-      </mu-paper>
       <!--推荐招聘-->
       <div class="demo-menu">
         <div class="right-content">
@@ -142,7 +145,12 @@
 </template>
 
 <script>
+  import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+  import { faCommentDots } from '@fortawesome/fontawesome-free-solid'
   export default {
+    components: {
+      FontAwesomeIcon
+    },
     name: "right-sidebar",
     props: ['is_article'],
     data() {
@@ -157,12 +165,21 @@
       publish() {
         this.$router.push('/create')
       }
-    }
+    },
+    computed: {
+      icon () {
+        return faCommentDots
+      }
+    },
   }
 </script>
 
 <style scoped>
-  
+  p {
+    padding : 0;
+    margin : 0;
+  }
+
   .demo-menu-container {
     max-width: 350px;
 
@@ -184,6 +201,10 @@
 
   .right-list a:hover {
     color: #DB6862;
+  }
+
+  .right-list-item {
+    padding-bottom: 20px;
   }
 
   .right-icon {
@@ -272,5 +293,9 @@
     width: 80px;
     height: 80px;
     border-radius: 50px;
+  }
+
+  .avatar{
+    border-radius: 50%;
   }
 </style>
